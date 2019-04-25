@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Home Page</title>
+  <meta charset="utf-8">
+  <meta name="author" content="Chandler Stevens">
+  <style>
+		html
+		{
+			background: url("images/clouds.jpg")
+			no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		h1
+		{
+			color: #35ff;
+			text-align: center;
+			font-family: "lucida sans", sans-serif;
+		}
+		h3
+		{
+			color: #222c;
+			text-align: center;
+			font-family: "tahoma", sans-serif;
+		}
+		.container
+		{
+			position: relative;
+  		width: 50%;
+			margin: 0 auto;
+		}
+		.image
+		{
+		  opacity: 1;
+		  display: block;
+		  height: auto;
+			width: 100%;
+		  transition: .5s ease;
+		  backface-visibility: hidden;
+			border-radius: 15px;
+		}
+		.middle
+		{
+		  transition: .5s ease;
+		  opacity: 0.9;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  -ms-transform: translate(-50%, -50%)
+		}
+		.container:hover .image
+		{
+		  opacity: 0.8;
+		}
+		.container:hover .middle
+		{
+		  opacity: 1;
+		}
+		.text
+		{
+		  background-color: #06fe;
+		  color: white;
+		  font-size: 16px;
+		  padding: 16px 32px;
+			border-radius: 8px;
+		}
+  </style>
+</head>
+<body>
+	<h1>Home</h1>
+	<h3>This home screen includes links to two iterations of my resume
+	   as well as to my Hangman game.</h3>
+	<div class="container">
+		<img src="images/resume.png" alt="Resume" class="image" style="width:100%">
+		<div class="middle">
+		 <a href="stevens_resume.html"><div class="text">Resume</div></a>
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<img src="images/resume_modified.png" alt="Modified Resume" class="image" style="width:100%">
+		<div class="middle">
+		 <a href="stevens_resume_modified.html"><div class="text">Modified Resume</div></a>
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<img src="images/hangman.png" alt="Hangman" class="image" style="width:100%">
+		<div class="middle">
+		 <a href="hangman.html"><div class="text">Hangman</div></a>
+		</div>
+	</div>
+</body>
+</html>

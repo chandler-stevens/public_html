@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Hangman</title>
+  <meta charset="utf-8">
+  <meta name="author" content="Chandler Stevens">
+  <style>
+		html
+		{
+			background: url("images/west.jpg")
+			no-repeat center center fixed;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		h1
+		{
+			text-align: center;
+		}
+		button
+		{
+			background-color: #4CAF50;
+		  border: none;
+		  color: white;
+		  padding: 15px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  margin: 4px 2px;
+		  cursor: pointer;
+		}
+		.grid-container
+		{
+		  display: grid;
+		  grid-template-columns: auto auto auto auto auto;
+			align-items: center;
+			justify-content: center;
+		}
+		#gridImage
+		{
+			grid-row: 1 / 8
+		}
+  </style>
+</head>
+<body onload="load()">
+	<h1 id="word" justify=center></h1>
+	<div class="grid-container">
+		<div class="grid-item">
+			<button type="button" id="restart" onClick='load()'>Play Again?</button>
+		</div>
+	</div>
+	<h1 id="count" justify=center></h1>
+	<div class="grid-container">
+	  <div class="grid-item" id="gridImage">
+			<img src="images/0.png" alt="0 Wrong Guesses" id="image" height="600"/>
+		</div>
+	  <div class="grid-item">
+			<button type="button" id="A" onClick='guess("A")' autofocus>A</button>
+		</div>
+	  <div class="grid-item">
+			<button type="button" id="B" onClick='guess("B")' >B</button>
+		</div>
+	  <div class="grid-item">
+			<button type="button" id="C" onClick='guess("C")' >C</button>
+		</div>
+	  <div class="grid-item">
+			<button type="button" id="D" onClick='guess("D")' >D</button>
+		</div>
+	  <div class="grid-item">
+			<button type="button" id="E" onClick='guess("E")' >E</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="F" onClick='guess("F")' >F</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="G" onClick='guess("G")' >G</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="H" onClick='guess("H")' >H</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="I" onClick='guess("I")' >I</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="J" onClick='guess("J")' >J</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="K" onClick='guess("K")' >K</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="L" onClick='guess("L")' >L</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="M" onClick='guess("M")' >M</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="N" onClick='guess("N")' >N</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="O" onClick='guess("O")' >O</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="P" onClick='guess("P")' >P</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="Q" onClick='guess("Q")' >Q</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="R" onClick='guess("R")' >R</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="S" onClick='guess("S")' >S</button>
+		</div>
+		<div class="grid-item">
+			<button type="button"  id="T" onClick='guess("T")' >T</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="U" onClick='guess("U")' >U</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="V" onClick='guess("V")' >V</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="W" onClick='guess("W")' >W</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="X" onClick='guess("X")' >X</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="Y" onClick='guess("Y")' >Y</button>
+		</div>
+		<div class="grid-item">
+			<button type="button" id="Z" onClick='guess("Z")' >Z</button>
+		</div>
+	</div>
+	<script>
+		var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+									  "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+									  "U", "V", "W", "X", "Y", "Z"];
+		var wordList = ["SPHYNX", "TAJ MAHAL", "PYRAMID", "STONEHENGE", "MACCHU PICHU",
+                    "CZECH REPUBLIC", "BOTSWANA", "INDONESIA", "MADAGASCAR", "BERMUDA",
+                    "NEIL ARMSTRONG", "ELVIS PRESLEY", "RONALD REAGAN", "ALBERT EINSTEIN", "WALT DISNEY",
+                    "CHEVROLET", "LEXUS", "TOYOTA", "NISSAN", "HONDA",
+                    "JAGUAR", "SALAMANDER", "HUMMINGBIRD", "SEA URCHIN", "BUTTERFLY",
+                    "NEBULA", "GALAXY", "SUPERNOVA", "ASTEROID FIELD", "COMET"];
+		var secretWord;
+		var displayedWord = [];
+		var wordSize;
+		var wrongGuesses;
+		var i;
+
+		function load()
+		{
+			displayedWord = [];
+			document.getElementById("restart").disabled=true;
+			document.getElementById("restart").style="background:transparent; color:transparent;";
+			for(i in alphabet)
+			{
+				document.getElementById(alphabet[i]).disabled=false;
+				document.getElementById(alphabet[i]).style="background-color: #4CAF50; color: white;";
+			}
+			document.getElementById("A").focus();
+
+			secretWord = wordList[Math.floor(Math.random() * wordList.length)];
+			wordSize = secretWord.length;
+			wrongGuesses = 0;
+			for(i in secretWord)
+			{
+				if(secretWord[i] != " ")
+				{
+					displayedWord[i] = "_";
+				}
+				else
+				{
+					displayedWord[i] = "&nbsp";
+					wordSize--;
+				}
+			}
+			document.getElementById("image").src="images/0.png";
+			document.getElementById("word").innerHTML=displayedWord.join(" ");
+			document.getElementById("count").innerHTML="Health Remaining: 7/7";
+		}
+
+		function guess(letter)
+		{
+			document.getElementById(letter).disabled=true;
+			document.getElementById(letter).style="background:transparent; color:transparent;";
+			var wrong = 1;
+			for (i in secretWord)
+			{
+				if (secretWord[i] === letter)
+				{
+				 	displayedWord[i] = letter;
+					wordSize--;
+					wrong = 0;
+			 	}
+			}
+			document.getElementById("word").innerHTML=displayedWord.join(" ");
+			if(wrong)
+			{
+				wrongGuesses++;
+				document.getElementById("image").src="images/"+String(wrongGuesses)+".png";
+				document.getElementById("count").innerHTML="Health Remaining: "+String(7-wrongGuesses)+"/7";
+			}
+			if(wordSize == 0)
+			{
+		 		document.getElementById("word").innerHTML=displayedWord.join(" ");
+				document.getElementById("count").innerHTML="You win!";
+				endGame();
+			}
+			else if (wrongGuesses == 7)
+			{
+				document.getElementById("count").innerHTML="Sorry, you lose.";
+				endGame();
+			}
+		}
+
+		function endGame()
+		{
+			document.getElementById("restart").disabled=false;
+			document.getElementById("restart").style="background-color: #4CAF50; color: white;";
+			for(i in alphabet)
+			{
+				document.getElementById(alphabet[i]).disabled=true;
+				document.getElementById(alphabet[i]).style="background:transparent; color:transparent;";
+			}
+			document.getElementById("restart").focus();
+		}
+  </script>
+</body>
+</html>
